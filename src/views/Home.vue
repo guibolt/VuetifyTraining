@@ -1,15 +1,30 @@
 <template>
   <div class="home">
-    <h1>Home Page</h1>
-    <p class="red white--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque, laborum nulla alias odio eaque quam numquam necessitatibus, quos, dolores nemo dignissimos pariatur omnis culpa dolorum esse debitis veritatis rem accusamus?</p>
-    <p class="pink lighten-4 red--text text--darken-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, officia ipsam? Molestiae vitae impedit quibusdam tempora necessitatibus quis quae dicta ad. Impedit error nisi temporibus voluptatum. Nisi quam corrupti esse.</p>
+    <h1>This is the homepage</h1>
+    <v-divider></v-divider>
 
-    <h1 class="display-3 text-center">Massive Display</h1>
-    <h4 class="display-1 text-center">Smaller display</h4>
-    <p class="headline">This is a headline</p>
-    <p class="subheading font-weight-bold">This is a subheading</p>
-    <p class="caption text-uppercase">this is a caption</p>
-    <p class="caption text-lowercase">this  a caption</p>
+    <v-btn class="pink white--text">click me</v-btn>
+    <v-btn depressed color="pink">click me</v-btn>
+    <v-btn flat color="pink">click me</v-btn>
+
+    <v-btn depressed class="pink white--text">
+      <v-icon left>email</v-icon>
+      <span>email me</span>
+    </v-btn>
+
+    <v-btn depressed small class="pink white--text">
+      <v-icon left small>email</v-icon>
+      <span>email me</span>
+    </v-btn>
+
+    <v-btn depressed large class="pink white--text">
+      <span>email me</span>
+      <v-icon right large>email</v-icon>
+    </v-btn>
+
+    <v-btn fab dark small depressed color=" primary">
+      <v-icon dark>favorite</v-icon>
+    </v-btn>
 
   </div>
 </template>
