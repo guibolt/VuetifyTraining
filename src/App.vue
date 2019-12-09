@@ -5,7 +5,7 @@
         background: linear-gradient(to right, #8e9eab, #eef2f3); 
   ">
     <Navbar />
-    <v-content>
+    <v-content class="mx-5 mb-4">
       <router-view></router-view>
     </v-content>
   </v-app>

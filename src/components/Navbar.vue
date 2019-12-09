@@ -1,36 +1,75 @@
 <template>
  <nav>
-   
    <v-toolbar>
     <v-app-bar-nav-icon class="grey--text" @click="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title text app class="text-uppercase grey--text">
       <span class="font-weight-light">
-        Tarefas
+        Projetos
       </span>
       <span>
         Para fazer
       </span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
+
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+      <v-btn text color="grey"   v-on="on">
+        <v-icon left>expand_more</v-icon>
+        <span>Menu</span>
+      </v-btn>
+        </template>
+        <v-list>
+        <v-list-item
+          v-for="(link, index) in links"
+          :key="index"
+           router :to="link.route"
+
+  >
+          <v-list-item-title>{{ link.text }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  
+
     <v-btn text color="grey">
       <span>Sign Out</span>
       <v-icon right>exit_to_app</v-icon>
     </v-btn>
    </v-toolbar>
-   <v-navigation-drawer v-model="drawer" app class="indigo">
-      <v-list class="indigo">
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon left class ="white--text">dashboard</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title class="white--text">
-              DashBoard
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+     <v-navigation-drawer v-model="drawer" absolute  temporary>
+       
+      <v-list nav dense>
+       <v-layout column align-center>
+        <v-flex class="mt-5">
+          <v-avatar size="100">
+            <v-img src="https://media.licdn.com/dms/image/C4D03AQGMuqrqzJMfog/profile-displayphoto-shrink_200_200/0?e=1581552000&v=beta&t=25sfUGTMLYcxa6gdkkkahQCdByYeaYHRKfRXmGg2lyM"></v-img>
+          </v-avatar>
+        </v-flex>
+          <p class="subheading mt-4">Guilherme</p> 
+       </v-layout>
 
+        <v-divider></v-divider>
+
+        <v-divider></v-divider>
+    
+        <v-list dense>
+          <v-list-item
+            v-for="item in links"
+            :key="item.text"
+            router :to="item.route"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.text }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+       
+      </v-list>
     </v-navigation-drawer>
 
   
@@ -41,10 +80,10 @@
 export default {
 data:() =>({
   drawer: false,
-  itens: [
+  links: [
     {icon:'dashboard', text:'Dashboard', route: '/'},
-    {icon:'folder', text:'My Projects', route: '/projects'},
-    {icon:'person', text:'Team', route: '/team'}
+    {icon:'folder', text:'Meus Projetos', route: '/projects'},
+    {icon:'person', text:'Time', route: '/team'}
   ],
 })
 }
