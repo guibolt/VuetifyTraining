@@ -23,9 +23,8 @@
         <v-list-item
           v-for="(link, index) in links"
           :key="index"
-           router :to="link.route"
+           router :to="link.route" >
 
-  >
           <v-list-item-title>{{ link.text }}</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -47,6 +46,9 @@
           </v-avatar>
         </v-flex>
           <p class="subheading mt-4">Guilherme</p> 
+          <v-flex class=" mt-4 mb-3">
+            <Popup/>
+          </v-flex>
        </v-layout>
 
         <v-divider></v-divider>
@@ -77,7 +79,11 @@
 </template>
 
 <script>
+import Popup from './Popup'
 export default {
+  components :{
+    Popup
+  },
 data:() =>({
   drawer: false,
   links: [

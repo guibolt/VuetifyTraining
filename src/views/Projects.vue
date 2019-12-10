@@ -7,13 +7,18 @@
 
   <v-expansion-panels>
     <v-expansion-panel v-for="project in projects"
-    :key="project.title" class="mt-5">
+    :key="project.title" class="mt-5" >
+  
+
+
+   
+        
       <v-expansion-panel-header>
-     
+        
         {{project.title}}
         </v-expansion-panel-header>
 
-      <v-expansion-panel-content>
+      <v-expansion-panel-content >
          <v-card>
             <v-card-text>
               <div class="font-weight-bold">{{project.due}}</div>
