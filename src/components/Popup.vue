@@ -1,5 +1,5 @@
 <template>
-<v-dialog  max-width="600px">
+<v-dialog  max-width="600px" v-model="dialog">
  <template v-slot:activator="{ on }">
     <v-btn color="success"  v-on="on" > 
       <v-icon left >add</v-icon>
@@ -18,7 +18,7 @@
           <v-card-text>
             <v-form class="px-3" ref="form">
               <v-text-field label= "Titulo" color="blue-grey" v-model="projeto.titulo" prepend-icon="folder" :rules ="regrasTitulo"> </v-text-field>
-              <v-textarea label= "Informações" color="blue-grey" v-model="projeto.informacao" prepend-icon="edit" :rules="regrasInfo"></v-textarea>
+              <v-text-field label= "Informações" color="blue-grey" v-model="projeto.informacao" prepend-icon="edit" :rules="regrasInfo"></v-text-field>
 
                 <v-menu
                   max-width="290"
@@ -42,6 +42,7 @@
               @click="submit"
               text
               class="success mx-0 mt-3"
+              :loading="carregando"
                             >
               Adicionar!
               </v-btn>
@@ -56,12 +57,15 @@
 import 'moment/locale/pt-br'
 import moment from 'moment'
 
+import db from '../plugins/firebase'
+
 export default {
 data:()=>({
   projeto: {
     titulo:'',
     informacao: '',
-    data: undefined
+    data: undefined,
+    
   },
   regrasTitulo: [
     v =>  v && v.length >= 3 || 'Tamanho mínimo é 3'
@@ -71,14 +75,33 @@ data:()=>({
   ],
   regrasData: [
     v =>  v && v.length >= 0 || 'É necessario escolher!'
-  ]
+  ],
+  dialog: false,
+  carregando: false
 }),
 methods: {
-  submit(){
+  async submit(){
+        moment.locale('pt-br')
     if(this.$refs.form.validate()){
-      console.log('Novo projeto: ', this.projeto)
+    this.carregando = true
+     await db.collection('projects').add( {
+        title: this.projeto.titulo,
+        content: this.projeto.informacao,
+        due: moment(this.projeto.data).format('LL'),
+        status: 'fazendo',
+        person: 'Guilherme'
+
+      }).then(()=>{
+        console.log('projeto adcionado')
+        this.dialog = false
+        this.carregando = false
+        this.$emit('projetoAdicionado')
+         this.$refs.form.reset()
+        this.projeto = {}
+      })
     }
 
+    else
     console.log('wrong!')
   }
 },
@@ -91,7 +114,3 @@ computed:{
 
 }
 </script>
-
-<style>
-
-</style>

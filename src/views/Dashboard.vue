@@ -52,10 +52,18 @@
             <div>{{ project.due }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
+               <div class="caption grey--text">Status</div>
             <div class="right">
               <v-chip small 
               :color="mudarCor(project)"
               :class="`${project.status} white--text my-2 caption`">{{ project.status }}</v-chip>
+              <v-btn icon>
+              <v-icon color= "green" class="ml-5">edit</v-icon>
+
+              </v-btn>
+              <v-btn icon>
+              <v-icon color="red" class="ml-5">delete</v-icon>
+              </v-btn>
             </div>
           </v-flex>
         </v-layout>
@@ -68,15 +76,11 @@
 </template>
 
 <script>
+import db from '../plugins/firebase'
 export default {
   data() {
     return {
-      projects: [
-        { title: 'Fazer um novo Website', person: 'Rafael', due: '1 de Janeiro 2019', status: 'fazendo', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Codificar a pagina home', person: 'Jose', due: '10 de Janeiro 2019', status: 'feito', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Fazer a thumbnail', person: 'Matheus', due: '20 de Dezembro 2018', status: 'feito', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Criar o forum da comunidade', person: 'Andre', due: '20 de Outubro 2018', status: 'atrasado', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-      ]
+      projects: []
     }
   },
   methods:{
@@ -93,19 +97,32 @@ export default {
     sortBy(prop){
       this.projects.sort((a,b)=>a[prop] <b[prop] ? -1 : 1)
     }
+  },
+  created(){
+    db.collection('projects').onSnapshot(resp =>{
+      const changes = resp.docChanges() 
+      
+      changes.forEach(change =>{
+        if(change.type === 'added')
+        this.projects.push({
+          ...change.doc.data(),
+          id: change.doc.id
+        })
+      })
+    })
   }
 }
 </script>
 
 <style>
 .project.feito{
-  border-left: 4px solid #3CD1C2;
+  border-left: 4px solid green
 }
 .project.fazendo{
   border-left: 4px solid orange
 }
 .project.atrasado{
-  border-left: 4px solid tomato;
+  border-left: 4px solid red
 }
 
 </style>

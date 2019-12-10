@@ -1,8 +1,14 @@
 <template>
  <nav>
+    <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
+      <span>Projeto adicionado com Sucesso!</span>
+      <v-btn text color="white">Close</v-btn>
+    </v-snackbar>
+
    <v-toolbar>
     <v-app-bar-nav-icon class="grey--text" @click="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title text app class="text-uppercase grey--text">
+    <v-btn @click="$router.push('/')" text>
+      <v-toolbar-title text app class="text-uppercase grey--text" >
       <span class="font-weight-light">
         Projetos
       </span>
@@ -10,10 +16,12 @@
         Para fazer
       </span>
     </v-toolbar-title>
-    <v-spacer></v-spacer>
+    </v-btn>
     
+    <v-spacer></v-spacer>
+
     <v-btn text color="grey">
-      <span>Sign Out</span>
+      <span>Sair</span>
       <v-icon right>exit_to_app</v-icon>
     </v-btn>
    </v-toolbar>
@@ -28,7 +36,7 @@
         </v-flex>
           <p class="subheading mt-4">Guilherme</p> 
           <v-flex class=" mt-4 mb-3">
-            <Popup/>
+            <Popup @projetoAdicionado="setFalse"/>
           </v-flex>
        </v-layout>
 
@@ -72,10 +80,13 @@ data:() =>({
     {icon:'folder', text:'Meus Projetos', route: '/projects'},
     {icon:'person', text:'Time', route: '/team'}
   ],
-})
+  snackbar: false
+}),
+methods: {
+  setFalse(){
+    this.snackbar = true
+    this.drawer = false
+  }
+}
 }
 </script>
-
-<style>
-
-</style>

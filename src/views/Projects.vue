@@ -38,16 +38,11 @@
 <script>
 // @ is an alias to /src
 
-
+import db from '../plugins/firebase'
 export default {
   name: 'projects',
   data:()=>({
-    projects: [
-        { title: 'Fazer um novo Website', person: 'Rafael', due: '1 de Janeiro 2019', status: 'fazendo', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Codificar a pagina home', person: 'Jose', due: '10 de Janeiro 2019', status: 'feito', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Fazer a thumbnail', person: 'Matheus', due: '20 de Dezembro 2018', status: 'feito', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Criar o forum da comunidade', person: 'Andre', due: '20 de Outubro 2018', status: 'atrasado', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-      ]
+    projects: []
   }),
   computed:{
   myProjects(){
@@ -55,8 +50,19 @@ export default {
       return project.person ==='Rafael'
     })
   }
+  },
+  created(){
+    db.collection('projects').onSnapshot(resp =>{
+      const changes = resp.docChanges() 
+      
+      changes.forEach(change =>{
+        if(change.type === 'added')
+        this.projects.push({
+          ...change.doc.data(),
+          id: change.doc.id
+        })
+      })
+    })
   }
-
-
 }
 </script>
